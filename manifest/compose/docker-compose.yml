@@ -1,0 +1,22 @@
+version: '3.8'
+services:
+  redbot:
+    build:
+      args:
+      - VERSION=3.4.16
+      context: ./manifest/images/redbase/
+    command: redbot main
+    image: docker.io/ccarney16/redbase:v3.4.16
+    restart: always
+    volumes:
+    - ./conf.d/redbot:/config:z
+    - ./data/redbot:/data:z
+  lavalink:
+    build:
+      args:
+      - VERSION=3.4.0_1275
+      context: ./manifest/images/lavalink
+    image: docker.io/ccarney16/lavalink:3.4.0_1275
+    volumes:
+    - ./conf.d/lavalink:/config:z
+    - ./data/lavalink:/data
