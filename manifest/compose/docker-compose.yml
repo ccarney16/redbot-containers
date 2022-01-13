@@ -3,10 +3,10 @@ services:
   redbot:
     build:
       args:
-      - VERSION=3.4.16
+      - VERSION=${REDBASE_VERSION}
       context: ./manifest/images/redbase/
-    command: redbot main
-    image: docker.io/ccarney16/redbase:v3.4.16
+    command: main
+    image: docker.io/ccarney16/redbase:${REDBASE_VERSION:-latest}
     restart: always
     volumes:
     - ./conf.d/redbot:/config:z
@@ -14,9 +14,9 @@ services:
   lavalink:
     build:
       args:
-      - VERSION=3.4.0_1275
+      - VERSION=${LAVALINK_VERSION}
       context: ./manifest/images/lavalink
-    image: docker.io/ccarney16/lavalink:3.4.0_1275
+    image: docker.io/ccarney16/lavalink:${LAVALINK_VERSION:-latest}
     volumes:
     - ./conf.d/lavalink:/config:z
-    - ./data/lavalink:/data
+    - ./data/lavalink:/data:z

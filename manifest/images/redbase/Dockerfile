@@ -17,7 +17,7 @@ RUN dnf -y update && \
     dnf clean all
 
 # Create a unprivileged container user
-RUN useradd -r -u 500 container
+RUN useradd -r -u 1500 container
 
 # Prepare all python dependencies for redbot
 # We wont use venv as docker/podman already provide us with an isolated environment
@@ -25,7 +25,9 @@ RUN python3.9 -m pip install -U pip setuptools wheel
 RUN python3.9 -m pip install -U Red-DiscordBot[postgres]==${VERSION}
 
 # Change these variables so that redbot doesnt save to home
-ENV XDG_CONFIG_HOME="/config" XDG_DATA_HOME="/data"
+ENV XDG_CONFIG_HOME="/config" XDG_DATA_HOME="/data" XDG_DATA_DIRS="/data"
 
 # Use 'container' user
 USER container
+
+ENTRYPOINT [ "/usr/local/bin/redbot" ]

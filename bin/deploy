@@ -1,0 +1,27 @@
+#!/bin/sh
+
+cd "$(dirname $0)/../"
+
+
+# Check if docker-compose exists
+if [ -f docker-compose.yml ]; then
+    echo "docker-compose file exists! If you want to redeploy this project, delete or move docker-compose.yml, conf.d and data."
+    echo "Aborting deployment..."
+    exit 0
+fi
+
+echo "Deploy Project..."
+# Copy docker-compose and config
+cp -rv manifest/config conf.d
+cp -v manifest/compose/docker-compose.yml docker-compose.yml
+
+# Make directories and set them to specific ownerships
+mkdir -v conf.d/redbot
+chown -Rv 1500:1500 conf.d/redbot
+
+mkdir -vp data/redbot
+chown -Rv 1500:1500 data/redbot
+mkdir -vp data/lavalink
+chown -Rv 322:322 conf.d/redbot
+
+echo "Deployment Finished!"
